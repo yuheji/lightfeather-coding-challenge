@@ -25,9 +25,9 @@ function postSubmit(req, res) {
  * Express validator for required post parameters
  */
 const validatePostSubmit = [
-        body('firstName', 'firstName does\'t exist').exists(),
-        body('lastName', 'lastName doesn\'t exist').exists(),
-        body('supervisorId', 'No supervisorId provided').exists(),
+        body('firstName', 'No firstName provided').exists().notEmpty(),
+        body('lastName', 'No lastName provided').exists().notEmpty(),
+        body('supervisorId', 'No supervisorId provided').exists().notEmpty(),
         body('email', 'Invalid email').optional().isEmail(),
         body('phoneNumber').optional().isInt()
 ];

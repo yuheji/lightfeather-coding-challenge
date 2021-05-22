@@ -31,7 +31,7 @@ Input should be in the following format:
     "firstName": "Joshua", (required)
     "lastName": "Ji", (required)
     "email": "joshua.yuheji@gmail.com",
-    "phoneNumber": "8182822972",
+    "phoneNumber": "123456789",
     "supervisorId": "3" (required)
 }
 ```
