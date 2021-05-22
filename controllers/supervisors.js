@@ -1,9 +1,7 @@
 const https = require('https');
 
-exports.getSupervisors = function (req, res) {
-    console.log("get supervisors!!!");
+function getSupervisors(req, res) {
     getSupervisorData((result) => {
-        // console.log(result);
         res.send(processSupervisorsData(result));
     });
 };
@@ -24,10 +22,8 @@ function getSupervisorData(callback) {
     let data = '';
 
     const req = https.request(supervisorsRequestOptions, res => {
-        console.log(`statusCode: ${res.statusCode}`)
         res.on('data', d => {
             data += d;
-            // process.stdout.write(d)
             callback(JSON.parse(data));
         });
     });
@@ -55,3 +51,8 @@ function processSupervisorsData(dataArray) {
     returnList.sort();
     return returnList;
 }
+
+module.exports = {
+    getSupervisors: getSupervisors,
+    getSupervisorData: getSupervisorData
+};
