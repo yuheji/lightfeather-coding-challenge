@@ -1,6 +1,8 @@
 const { body, validationResult } = require('express-validator')
 const supervisorsController = require('../controllers/supervisors');
 
+let submits = [];
+
 function postSubmit(req, res) {
     const body = req.body;
     console.log(body);
@@ -17,9 +19,31 @@ function postSubmit(req, res) {
         if (!(result.some(supervisor => supervisor.id === supervisorId))) {
             return res.status(422).json({ error: 'Supervisor not found'});
         }
+
+        const supervisor = result.find(({id}) => id === supervisorId);
+        const supervisorPhone = supervisor.phone;
+        body.supervisorPhone = supervisorPhone;
+        submits.push(body);
+        console.log(submits);
         res.status(200).json(body);
     });
-};
+}
+
+function getSubmit(req, res) {
+    res.send(submits);
+}
+
+function getSubmitWithSupervisorId(req, res) {
+    let supervisorId = req.params.supervisorId;
+    let returnArray = [];
+    submits.forEach(submit => {
+        if (submit.supervisorId == supervisorId) {
+            returnArray.push(submit);
+        }
+    });
+
+    res.send(returnArray);
+}
 
 /**
  * Express validator for required post parameters
@@ -34,5 +58,7 @@ const validatePostSubmit = [
 
 module.exports = {
     postSubmit: postSubmit,
+    getSubmit: getSubmit,
+    getSubmitWithSupervisorId: getSubmitWithSupervisorId,
     validatePostSubmit: validatePostSubmit
 };
